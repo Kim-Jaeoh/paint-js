@@ -5,6 +5,7 @@ const ranges = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 const saveBtn = document.getElementById("jsSave");
 const noneInput = document.getElementById("noneInput");
+const removeBtn = document.getElementById("jsRemove");
 
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
@@ -121,4 +122,13 @@ function handleSaveClick() {
 
 if (saveBtn) {
   saveBtn.addEventListener("click", handleSaveClick);
+}
+
+// 지우기
+function handleRemoveClick() {
+  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+}
+
+if (removeBtn) {
+  removeBtn.addEventListener("click", handleRemoveClick);
 }
