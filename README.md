@@ -1,2 +1,1 @@
-# paint-js
-Painting Board made with VanillaJS
+바닐라 JS로 만든 그림판입니다.
