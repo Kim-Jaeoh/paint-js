@@ -8,7 +8,7 @@ const noneInput = document.getElementById("noneInput");
 const removeBtn = document.getElementById("jsRemove");
 
 const INITIAL_COLOR = "#2c2c2c";
-const CANVAS_SIZE = 700;
+const CANVAS_SIZE = 600;
 
 // 컨버스 조정 및 선 생성
 canvas.width = CANVAS_SIZE;
@@ -59,7 +59,6 @@ function handleCanvasClick() {
 }
 
 function handleRightClick(event) {
-  // console.log(event);
   event.preventDefault();
 }
 
@@ -69,22 +68,28 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
-  canvas.addEventListener("contextmenu", handleRightClick);
+  canvas.addEventListener("contextmenu", handleRightClick); // 우클릭 방지
 }
 
 // 컬러 변경
 function handleColorClick(event) {
+  // event는 밑에 handleSizeClick에서 Array.from으로 반환된 배열들
   const color = event.target.style.backgroundColor;
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
+  // 유사 배열이므로 Array.from 후 forEach 반복문으로 배열 반환
+  Array.from(colors).forEach((color) => color.classList.remove("selected"));
+  event.target.classList.add("selected");
 }
 
+function handleSizeClick() {}
+/* Array.from은 유사 배열 객체를 배열로 얕게 복사함 -> forEach로 반복문 실행하여 배열로 반환
+   (유사 배열 객체는 forEach, map, filter, reduce 같은 메소드 사용 불가함으로 Array.from() 사용) */
 if (colors) {
   Array.from(colors).forEach((color) =>
     color.addEventListener("click", handleColorClick)
   );
-} /* Array.from은 유사 배열 객체를 배열로 얕게 복사해 forEach로 반복문 실행
-      (유사 배열 객체는 forEach, map, filter, reduce 같은 메소드 사용 불가함으로 Array.from() 사용) */
+}
 
 // 브러쉬 사이즈 변경
 function handleRangeChange(event) {
@@ -111,13 +116,13 @@ if (mode) {
   mode.addEventListener("click", handleModeClick);
 }
 
-// 저장
+// 저장하기
 function handleSaveClick() {
-  const image = canvas.toDataURL();
+  const image = canvas.toDataURL(); // 캔버스에 그린 그림을 문자열 형태로 변환
   const link = document.createElement("a");
   link.href = image;
   link.download = "PaintJS[🎨]";
-  link.click();
+  link.click(); // 가상으로 클릭
 }
 
 if (saveBtn) {
